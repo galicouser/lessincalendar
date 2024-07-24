@@ -1,21 +1,23 @@
-import React from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import React, { useState } from 'react';
+import LoginPage from './pages/LoginPage';
+import CalendarPage from './pages/CalendarPage';
 
-const localizer = momentLocalizer(moment);
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-const MyCalendar = () => {
+  const handleLogin = (status) => {
+    setIsLoggedIn(status);
+  };
+
   return (
-    <div style={{ height: 700 }}>
-      <Calendar
-        localizer={localizer}
-        events={[]}
-        startAccessor="start"
-        endAccessor="end"
-      />
+    <div>
+      {!isLoggedIn ? (
+        <LoginPage onLogin={handleLogin} />
+      ) : (
+        <CalendarPage />
+      )}
     </div>
   );
 };
 
-export default MyCalendar;
+export default App;
