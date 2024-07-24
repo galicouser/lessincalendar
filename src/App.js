@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import CalendarPage from './pages/CalendarPage';
+import CalendarPage from './pages/CalendarPage'; // Make sure this import is correct
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = (status) => {
-    setIsLoggedIn(status);
-  };
-
   return (
-    <div>
-      {!isLoggedIn ? (
-        <LoginPage onLogin={handleLogin} />
-      ) : (
-        <CalendarPage />
-      )}
-    </div>
+    <Routes>
+      <Route path="/" element={isLoggedIn ? <Navigate to="/calendar" /> : <LoginPage onLogin={setIsLoggedIn} />} />
+      <Route path="/calendar" element={isLoggedIn ? <CalendarPage /> : <Navigate to="/" />} />
+    </Routes>
   );
 };
 
