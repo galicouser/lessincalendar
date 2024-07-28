@@ -1,47 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { DialogOverlay, DialogBox } from '../styled/EventDetailsStyles';
 
-const NewEventForm = ({ onSave }) => {
-  const [title, setTitle] = useState('');
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
-
-  const submitForm = (e) => {
-    e.preventDefault();
-    onSave({
-      title,
-      start,
-      end,
-      allDay: false
-    });
-    setTitle('');
-    setStart(new Date());
-    setEnd(new Date());
-  };
-
+const EventDetailsDialog = ({ event, onClose }) => {
   return (
-    <form onSubmit={submitForm}>
-      <input
-        type="text"
-        placeholder="Event Title"
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        required
-      />
-      <input
-        type="datetime-local"
-        value={start.toISOString().slice(0,16)}
-        onChange={e => setStart(new Date(e.target.value))}
-        required
-      />
-      <input
-        type="datetime-local"
-        value={end.toISOString().slice(0,16)}
-        onChange={e => setEnd(new Date(e.target.value))}
-        required
-      />
-      <button type="submit">Add Event</button>
-    </form>
+    <DialogOverlay onClick={onClose}>
+      <DialogBox onClick={(e) => e.stopPropagation()}>
+        <h2>{event.title}</h2>
+        <p><strong>Start:</strong> {new Date(event.start).toLocaleString()}</p>
+        <p><strong>End:</strong> {new Date(event.end).toLocaleString()}</p>
+        <button onClick={onClose}>Close</button>
+      </DialogBox>
+    </DialogOverlay>
   );
 };
 
-export default NewEventForm;
+export default EventDetailsDialog;
